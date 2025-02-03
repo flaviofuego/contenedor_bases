@@ -21,11 +21,11 @@ for lang in python java cpp javascript rust; do
     docker wait $container_id
     
     # Copiar output.csv
-    docker cp "$container_id:/app/output.csv" "output_$lang.csv"
+    docker cp "$container_id:/app/output.csv" "output.csv"
     docker rm $container_id
     
     # Leer el tiempo
-    time_line=$(cat "output_$lang.csv")
+    time_line=$(cat "output.csv")
     echo "$time_line" >> output.csv
 done
 
