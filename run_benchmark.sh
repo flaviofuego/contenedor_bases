@@ -6,10 +6,10 @@ SOLUTIONS_DIR="contenedor_lenguajes"
 # 1. Clonar el repositorio de soluciones
 git clone "$SOLUTIONS_REPO" "$SOLUTIONS_DIR"
 
-echo "Lenguaje,Tiempo(seg)" > resultados.csv
+echo "Lenguaje,Tiempo(seg)" > output.csv
 
 # 2. Recorrer cada carpeta de lenguaje
-for lang in python java cpp node go; do
+for lang in python java cpp javascript rust; do
     echo "---- Procesando $lang ----"
     # Construir la imagen
     docker build -t "$lang:benchmark" "$SOLUTIONS_DIR/$lang"
@@ -26,8 +26,8 @@ for lang in python java cpp node go; do
     
     # Leer el tiempo
     time_line=$(cat "output_$lang.csv")
-    echo "$time_line" >> resultados.csv
+    echo "$time_line" >> output.csv
 done
 
-echo "===== Resultados ====="
-cat resultados.csv
+echo "===== output ====="
+cat output.csv
