@@ -3,31 +3,29 @@
 SOLUTIONS_REPO="https://github.com/flaviofuego/contenedor_lenguajes.git"
 SOLUTIONS_DIR="contenedor_lenguajes"
 
-# 1. Clonar el repositorio de soluciones
-git clone "$SOLUTIONS_REPO" "$SOLUTIONS_DIR"
+# 1. Clonar el repositorio de soluciones si no existe
+if [ ! -d "$SOLUTIONS_DIR" ]; then
+    git clone "$SOLUTIONS_REPO" "$SOLUTIONS_DIR"
+else
+    echo "El repositorio ya existe. Actualizando..."
+    git -C "$SOLUTIONS_DIR" pull
+fi
 
-echo "Lenguaje,Tiempo(seg)" > output.csv
+# 2. Crear el archivo de salida compartido
+OUTPUT_FILE=$(pwd)/data/output.csv
+echo "Lenguaje,Tiempo(seg)" > "$OUTPUT_FILE"
 
-# 2. Recorrer cada carpeta de lenguaje
+# 3. Procesar cada lenguaje
 for lang in python java cpp javascript rust; do
     echo "---- Procesando $lang ----"
+
     # Construir la imagen
     docker build -t "$lang:benchmark" "$SOLUTIONS_DIR/$lang"
     
-    # Ejecutar el contenedor
-    container_id=$(docker run -d "$lang:benchmark")
-    
-    # Esperar a que termine (en contenedores cortos, se detiene rápido)
-    docker wait $container_id
-    
-    # Copiar output.csv
-    docker cp "$container_id:/app/output.csv" "output.csv"
-    docker rm $container_id
-    
-    # Leer el tiempo
-    time_line=$(cat "output.csv")
-    echo "$time_line" >> output.csv
+    # Ejecutar el contenedor montando el archivo de salida
+    docker run --rm -v "/data:/$lang/data/" "$lang:benchmark"
 done
 
+# 4. Mostrar resultados
 echo "===== output ====="
-cat output.csv
+cat "$OUTPUT_FILE"
