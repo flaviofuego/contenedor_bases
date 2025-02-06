@@ -1,6 +1,6 @@
 # Dockerfile del contenedor base
 FROM docker:dind
-RUN apk add --no-cache git bash
+RUN apk add --no-cache bash
 
 WORKDIR /app
 COPY run_benchmark.sh /app/run_benchmark.sh
