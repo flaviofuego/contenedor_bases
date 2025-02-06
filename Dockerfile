@@ -1,6 +1,5 @@
 # Dockerfile del contenedor base
-FROM docker:latest
-
+FROM docker:dind
 RUN apk add --no-cache git bash
 
 WORKDIR /app

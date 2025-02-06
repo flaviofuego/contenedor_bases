@@ -16,7 +16,7 @@ OUTPUT_FILE=$(pwd)/data/output.csv
 echo "Lenguaje,Tiempo(seg)" > "$OUTPUT_FILE"
 
 # 3. Procesar cada lenguaje
-for lang in python java cpp javascript rust; do
+for lang in python java cpp javascript go; do
     echo "---- Procesando $lang ----"
 
     # Construir la imagen
