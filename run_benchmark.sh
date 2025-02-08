@@ -6,7 +6,7 @@ SOLUTIONS_DIR="contenedor_lenguajes"
 
 # Directorio y archivo de salida compartido
 DATA_DIR=$(pwd)/data
-OUTPUT_FILE="$DATA_DIR/output.csv"
+OUTPUT_FILE="$DATA_DIR/output.txt"
 mkdir -p "$DATA_DIR"
 
 # Crear o limpiar el archivo de salida compartido
